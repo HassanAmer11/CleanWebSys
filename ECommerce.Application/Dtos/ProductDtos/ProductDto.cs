@@ -1,0 +1,15 @@
+﻿using ECommerce.Application.Dtos.CategoryDtos;
+using ECommerce.Application.Dtos.ImagesDtos;
+using Microsoft.AspNetCore.Http;
+
+namespace ECommerce.Application.Dtos.ProductDtos;
+
+public class ProductGetDto : ProductBase
+{
+    public List<ImagesDto> Images { get; set; }
+    public CategoryBaseDto Category { get; set; }
+}
+public class ProductEditDto : ProductBase
+{
+    public List<IFormFile> Files { get; set; } = new();
+}
