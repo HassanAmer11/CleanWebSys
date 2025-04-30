@@ -46,9 +46,13 @@ namespace ECommerce.Application.Business.CategoryBusiness
             if (ValidatErrors != "") return UnprocessableEntity<string>(ValidatErrors);
 
             var categoryMapper = _mapper.Map<Category>(dto);
-            if (dto.file != null)
+            if (dto.Imagefile != null)
             {
-                categoryMapper.ImagePath = _manageImagesBL.GetImagePath(dto.file, "Categories");
+                categoryMapper.ImagePath = _manageImagesBL.GetImagePath(dto.Imagefile, "Categories");
+            }
+            if (dto.Iconfile != null)
+            {
+                categoryMapper.IconPath = _manageImagesBL.GetImagePath(dto.Iconfile, "Categories");
             }
             var result = await _unitOfWork.CategoryRepo.AddAsync(categoryMapper);
             return Success<string>(_localizer[LanguageKey.AddSuccessfully]);
@@ -63,9 +67,13 @@ namespace ECommerce.Application.Business.CategoryBusiness
             if (ValidatErrors != "") return UnprocessableEntity<string>(ValidatErrors);
 
             var entityMapper = _mapper.Map(category, entity);
-            if (category.file != null)
+            if (category.Imagefile != null)
             {
-                entityMapper.ImagePath = _manageImagesBL.GetImagePath(category.file, "Categories");
+                entityMapper.ImagePath = _manageImagesBL.GetImagePath(category.Imagefile, "Categories");
+            }
+            if (category.Iconfile != null)
+            {
+                entityMapper.IconPath = _manageImagesBL.GetImagePath(category.Iconfile, "Categories");
             }
             await _unitOfWork.CategoryRepo.UpdateAsync(entityMapper);
             return Success<string>(_localizer[LanguageKey.UpdateProcess]);

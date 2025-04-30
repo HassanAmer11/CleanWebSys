@@ -10,14 +10,11 @@ namespace ECommerce.Core.Entities.Model
         public string DescAr { get; set; }
         public string DetailAr { get; set; }
         public string VideoUrl { get; set; }
-        public decimal Price { get; set; }
-        public decimal? OldPrice { get; set; }
-        public bool? IsOffer { get; set; }
         public bool? ShowHome { get; set; }
         [ForeignKey("CategoryId")]
         public int CategoryId { get; set; }
         public Category Category { get; set; }
         public ICollection<Image> Images { get; set; }
-
+        public ICollection<ProductLocation> ProductLocations { get; set; }
     }
 }

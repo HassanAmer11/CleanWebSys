@@ -22,12 +22,6 @@ public class ProductValidator : AbstractValidator<ProductEditDto>
         RuleFor(x => x.NameAr)
             .NotEmpty().WithMessage("Should not be Empty")
             .NotNull().WithMessage("Can not be Null");
-        RuleFor(x => x.NameEn)
-            .NotEmpty().WithMessage("Should not be Empty")
-            .NotNull().WithMessage("Can not be Null");
-        RuleFor(x => x.Price)
-            .NotEmpty().WithMessage("Should not be empty")
-            .NotNull().WithMessage("Can not be Null");
         RuleFor(x => x.CategoryId)
              .NotEmpty().WithMessage("Should not be empty")
              .NotNull().WithMessage("Can not be Null");

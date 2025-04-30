@@ -10,6 +10,7 @@ namespace ECommerce.WebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
+    [ApiExplorerSettings(IgnoreApi = true)] // This hides the controller from Swagger
     public class OrderController : ControllerBase
     {
         #region Fields

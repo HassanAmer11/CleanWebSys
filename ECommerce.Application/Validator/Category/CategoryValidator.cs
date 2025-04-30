@@ -22,9 +22,6 @@ public class CategoryValidator : AbstractValidator<CategoryEditDto>
         RuleFor(x => x.NameAr)
             .NotEmpty().WithMessage("Should not be Empty")
             .NotNull().WithMessage("Can not be Null");
-        RuleFor(x => x.NameEn)
-            .NotEmpty().WithMessage("Should not be Empty")
-            .NotNull().WithMessage("Can not be Null");
     }
 
     #endregion

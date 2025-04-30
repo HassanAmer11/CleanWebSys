@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ECommerce.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class initailmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -62,8 +62,9 @@ namespace ECommerce.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NameAr = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NameEn = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DescriptionAr = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IconPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -77,15 +78,60 @@ namespace ECommerce.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ContactInfos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    WhatsApp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FaceBookPage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AboutUs = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Details = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InstagramPage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    XPage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Deleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContactInfos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Contents",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Details = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Deleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contents", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Governorates",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NameAr = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NameEn = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsFreeDelivery = table.Column<bool>(type: "bit", nullable: false),
-                    DeliverdFees = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -96,6 +142,27 @@ namespace ECommerce.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Governorates", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Menus",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Link = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Deleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Menus", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -211,12 +278,10 @@ namespace ECommerce.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NameAr = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NameEn = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DescAr = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DetailAr = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     VideoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    OldPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    IsOffer = table.Column<bool>(type: "bit", nullable: false),
-                    ShowHome = table.Column<bool>(type: "bit", nullable: false),
+                    ShowHome = table.Column<bool>(type: "bit", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -278,6 +343,7 @@ namespace ECommerce.Infrastructure.Migrations
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     GovernorateId = table.Column<int>(type: "int", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TotalOrderPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -296,6 +362,37 @@ namespace ECommerce.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Orders_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductLocations",
+                columns: table => new
+                {
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    GovernorateId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Deleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductLocations", x => new { x.ProductId, x.GovernorateId });
+                    table.ForeignKey(
+                        name: "FK_ProductLocations_Governorates_GovernorateId",
+                        column: x => x.GovernorateId,
+                        principalTable: "Governorates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductLocations_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
@@ -357,6 +454,11 @@ namespace ECommerce.Infrastructure.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductLocations_GovernorateId",
+                table: "ProductLocations",
+                column: "GovernorateId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",
                 table: "Products",
                 column: "CategoryId");
@@ -381,10 +483,22 @@ namespace ECommerce.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ContactInfos");
+
+            migrationBuilder.DropTable(
+                name: "Contents");
+
+            migrationBuilder.DropTable(
                 name: "Images");
 
             migrationBuilder.DropTable(
+                name: "Menus");
+
+            migrationBuilder.DropTable(
                 name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "ProductLocations");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

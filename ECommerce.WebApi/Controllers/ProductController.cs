@@ -4,10 +4,12 @@ using ECommerce.Application.IBusiness.IProductBusiness;
 using ECommerce.Core.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace ECommerce.WebApi.Controllers;
 
-[Route("api/[controller]")]
+//[Route("api/[controller]")]
+[Route("api/Service")]
 [ApiController]
 [AllowAnonymous]
 public class ProductController : ControllerBase
@@ -47,14 +49,14 @@ public class ProductController : ControllerBase
         return Ok(result);
     }
     [AllowAnonymous]
-    [HttpGet("GetProductById/{id}")]
+    [HttpGet("GetServiceById/{id}")]
     public async Task<IActionResult> GetById(int id)
     {
         var result = await _repo.GetProductById(id);
         return Ok(result);
     }
     [AllowAnonymous]
-    [HttpPost("AddProduct")]
+    [HttpPost("AddService")]
     public async Task<IActionResult> Add([FromForm] ProductEditDto product)
     {
         var result = await _repo.AddProduct(product);
@@ -73,7 +75,7 @@ public class ProductController : ControllerBase
         var result = await _repo.DeleteProduct(id);
         return Ok(result);
     }
-    [HttpPost("DeleteImageProduct")]
+    [HttpPost("DeleteImageService")]
     public async Task<IActionResult> DeleteImageProduct(DeleteImagesDto dto)
     {
         var result = await _repo.DeleteImageProduct(dto);

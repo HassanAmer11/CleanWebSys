@@ -35,7 +35,6 @@ public class ApplicationMapperProfiles : Profile
         CreateMap<Order, OrdersGetDto>()
                .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.Product.Id))
                .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.NameAr))
-               .ForMember(dest => dest.ProductPrice, opt => opt.MapFrom(src => src.Product.Price))
                .ForMember(dest => dest.GovernorateId, opt => opt.MapFrom(src => src.Governorates.Id))
                .ForMember(dest => dest.GovernorateName, opt => opt.MapFrom(src => src.Governorates.NameAr));
         #endregion

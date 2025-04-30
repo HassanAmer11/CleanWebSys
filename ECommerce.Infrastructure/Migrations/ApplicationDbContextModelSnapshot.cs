@@ -127,6 +127,12 @@ namespace ECommerce.Infrastructure.Migrations
                     b.Property<string>("DeletedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DescriptionAr")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IconPath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
@@ -261,12 +267,6 @@ namespace ECommerce.Infrastructure.Migrations
 
                     b.Property<string>("DeletedBy")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("DeliverdFees")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("IsFreeDelivery")
-                        .HasColumnType("bit");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
@@ -458,9 +458,6 @@ namespace ECommerce.Infrastructure.Migrations
                     b.Property<string>("DetailAr")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsOffer")
-                        .HasColumnType("bit");
-
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -469,12 +466,6 @@ namespace ECommerce.Infrastructure.Migrations
 
                     b.Property<string>("NameAr")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("OldPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<bool?>("ShowHome")
                         .HasColumnType("bit");
@@ -487,6 +478,42 @@ namespace ECommerce.Infrastructure.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("ECommerce.Core.Entities.Model.ProductLocation", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GovernorateId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Deleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ProductId", "GovernorateId");
+
+                    b.HasIndex("GovernorateId");
+
+                    b.ToTable("ProductLocations");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -663,6 +690,25 @@ namespace ECommerce.Infrastructure.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("ECommerce.Core.Entities.Model.ProductLocation", b =>
+                {
+                    b.HasOne("ECommerce.Core.Entities.Model.Governorate", "Governorate")
+                        .WithMany("ProductLocations")
+                        .HasForeignKey("GovernorateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ECommerce.Core.Entities.Model.Product", "Product")
+                        .WithMany("ProductLocations")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Governorate");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -719,9 +765,16 @@ namespace ECommerce.Infrastructure.Migrations
                     b.Navigation("products");
                 });
 
+            modelBuilder.Entity("ECommerce.Core.Entities.Model.Governorate", b =>
+                {
+                    b.Navigation("ProductLocations");
+                });
+
             modelBuilder.Entity("ECommerce.Core.Entities.Model.Product", b =>
                 {
                     b.Navigation("Images");
+
+                    b.Navigation("ProductLocations");
                 });
 #pragma warning restore 612, 618
         }
