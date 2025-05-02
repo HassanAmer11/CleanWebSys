@@ -5,6 +5,7 @@ using ECommerce.Application.ApplicationRepo.ManageImagesRepos;
 using ECommerce.Application.ApplicationRepo.MenuRepos;
 using ECommerce.Application.ApplicationRepo.OrdersRepos;
 using ECommerce.Application.ApplicationRepo.ProductRepos;
+using ECommerce.Application.ApplicationRepo.ProductLocationRepos;
 using ECommerce.Application.Business.AuthBusiness;
 using ECommerce.Application.Business.CategoryBusiness;
 using ECommerce.Application.Business.ContactInfoBusiness;
@@ -32,6 +33,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Text;
+using ECommerce.Application.IBusiness.IProductLocationBusiness;
+using ECommerce.Application.Business.ProductLocationBusiness;
 
 
 namespace ECommerce.Application;
@@ -51,6 +54,7 @@ public static class ModuleApplicationDependencies
         services.AddScoped<IMenuRepo, MenuRepo>();
         services.AddScoped<IContentRepo, ContentRepo>();
         services.AddScoped<IContactInfoRepo, ContactInfoRepo>();
+        services.AddScoped<IProductLocationRepo, ProductLocationRepo>();
 
         services.AddScoped<IManageImagesBL, ManageImagesBL>();
         services.AddScoped<IGovernoratesBL, GovernoratesBL>();
@@ -60,6 +64,8 @@ public static class ModuleApplicationDependencies
         services.AddScoped<IContentBL, ContentBL>();
         services.AddScoped<IMenuBL, MenuBL>();
         services.AddScoped<IContactInfoBL, ContactInfoBL>();
+        services.AddScoped<IProductLocationRepo, ProductLocationRepo>();
+        services.AddScoped<IProductLocationBL, ProductLocationBL>();
         services.AddScoped<IAuth, Auth>();
 
         #region JWT Authentication Configure

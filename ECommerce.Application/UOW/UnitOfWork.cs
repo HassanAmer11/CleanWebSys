@@ -5,6 +5,7 @@ using ECommerce.Application.ApplicationRepo.GovernorateRepos;
 using ECommerce.Application.ApplicationRepo.ManageImagesRepos;
 using ECommerce.Application.ApplicationRepo.MenuRepos;
 using ECommerce.Application.ApplicationRepo.OrdersRepos;
+using ECommerce.Application.ApplicationRepo.ProductLocationRepos;
 using ECommerce.Application.ApplicationRepo.ProductRepos;
 using ECommerce.Application.IUOW;
 using ECommerce.Infrastructure.Context;
@@ -23,6 +24,7 @@ public class UnitOfWork : IUnitOfWork
     IMenuRepo _menuRepoRepository { get; }
     IContentRepo _contentRepoRepository { get; }
     IContactInfoRepo _contactInfoRepository { get; }
+    IProductLocationRepo _productLocationRepository { get; }
     #endregion
 
     #region Constractor
@@ -41,6 +43,7 @@ public class UnitOfWork : IUnitOfWork
     public IContentRepo ContentRepo => _contentRepoRepository ?? new ContentRepo(_context);
     public IMenuRepo MenuRepo => _menuRepoRepository ?? new MenuRepo(_context);
     public IContactInfoRepo contactInfoRepo => _contactInfoRepository ?? new ContactInfoRepo(_context);
+    public IProductLocationRepo productLocationRepo => _productLocationRepository ?? new ProductLocationRepo(_context);
     #endregion
 
     #region UnitOfWork Methods

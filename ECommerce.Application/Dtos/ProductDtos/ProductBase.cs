@@ -12,5 +12,6 @@ namespace ECommerce.Application.Dtos.ProductDtos
         public int CategoryId { get; set; }
         public bool? ShowHome { get; set; }
         public string VideoUrl { get; set; }
+
     }
 }

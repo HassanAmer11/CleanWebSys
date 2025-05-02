@@ -7,6 +7,7 @@ using ECommerce.Application.Dtos.ImagesDtos;
 using ECommerce.Application.Dtos.MenuDtos;
 using ECommerce.Application.Dtos.OrdersDtos;
 using ECommerce.Application.Dtos.ProductDtos;
+using ECommerce.Application.Dtos.ProductLocationDtos;
 using ECommerce.Core.Entities.Model;
 
 namespace ECommerce.Application.AutoMappers;
@@ -46,6 +47,9 @@ public class ApplicationMapperProfiles : Profile
         #endregion
         #region ContactInfo
         CreateMap<ContactInfoDto, ContactInfo>().ReverseMap();
+        #endregion
+        #region ContactInfo
+        CreateMap<ProductLocationDto, ProductLocation>().ReverseMap();
         #endregion
 
     }

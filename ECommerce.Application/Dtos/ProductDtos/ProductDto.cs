@@ -12,4 +12,5 @@ public class ProductGetDto : ProductBase
 public class ProductEditDto : ProductBase
 {
     public List<IFormFile> Files { get; set; } = new();
+    public List<int> LocationIds { get; set; } = new();
 }

@@ -5,6 +5,7 @@ using ECommerce.Application.ApplicationRepo.GovernorateRepos;
 using ECommerce.Application.ApplicationRepo.ManageImagesRepos;
 using ECommerce.Application.ApplicationRepo.MenuRepos;
 using ECommerce.Application.ApplicationRepo.OrdersRepos;
+using ECommerce.Application.ApplicationRepo.ProductLocationRepos;
 using ECommerce.Application.ApplicationRepo.ProductRepos;
 
 namespace ECommerce.Application.IUOW;
@@ -19,5 +20,6 @@ public interface IUnitOfWork : IDisposable
     IContentRepo ContentRepo { get; }
     IMenuRepo MenuRepo { get; }
     IContactInfoRepo contactInfoRepo { get; }
+    IProductLocationRepo productLocationRepo { get; }
     Task<int> SaveCompleteAsync();
 }

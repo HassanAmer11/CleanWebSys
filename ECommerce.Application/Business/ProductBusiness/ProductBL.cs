@@ -4,6 +4,7 @@ using ECommerce.Application.Dtos.ImagesDtos;
 using ECommerce.Application.Dtos.ProductDtos;
 using ECommerce.Application.IBusiness.IManageImagesBusiness;
 using ECommerce.Application.IBusiness.IProductBusiness;
+using ECommerce.Application.IBusiness.IProductLocationBusiness;
 using ECommerce.Application.IUOW;
 using ECommerce.Application.Wrappers;
 using ECommerce.Core.Common;
@@ -23,15 +24,17 @@ public class ProductBL : ResponseHandler, IProductBL
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IManageImagesBL _manageImagesBL;
+    private readonly IProductLocationBL _productLocationBL;
     private readonly IStringLocalizer<SharedResources> _localizer;
     #endregion
     #region Constractor
-    public ProductBL(IMapper mapper, IUnitOfWork unitOfWork, IManageImagesBL manageImagesBL, IStringLocalizer<SharedResources> localizer) : base(localizer)
+    public ProductBL(IMapper mapper, IUnitOfWork unitOfWork, IManageImagesBL manageImagesBL, IStringLocalizer<SharedResources> localizer, IProductLocationBL productLocationBL) : base(localizer)
     {
         _mapper = mapper;
         _unitOfWork = unitOfWork;
         _localizer = localizer;
         _manageImagesBL = manageImagesBL;
+        _productLocationBL = productLocationBL;
 
 
     }
@@ -84,6 +87,10 @@ public class ProductBL : ResponseHandler, IProductBL
                 if (dto.Files.Any())
                 {
                     await _manageImagesBL.UploadImagesAsync(dto.Files, product.Id, "Products");
+                }
+                if (dto.LocationIds.Any())
+                {
+                    await _productLocationBL.AddNewServicLocationAsync(dto.LocationIds, product.Id);
                 }
                 return Success<string>(_localizer[LanguageKey.AddSuccessfully]);
             }
