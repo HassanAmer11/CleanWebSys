@@ -11,6 +11,8 @@ public interface IProductBL
     public Task<PaginatedResult<ProductGetDto>> GetHomeScreenProducts(Paginat Criteria);
     public Task<PaginatedResult<ProductGetDto>> GetAllProducts(Paginat Criteria);
     public Task<PaginatedResult<ProductGetDto>> GetProductsByCategoryId(Paginat Criteria, int catId);
+    public Task<ResponseApp<List<ProductGetDto>>> GetServicesByLocationAsync(int locationId);
+    public Task<ResponseApp<List<ProductGetDto>>> GetServicesByLocationAndCategoryAsync(int catId, int locationId);
     public Task<ResponseApp<ProductGetDto>> GetProductById(int id);
     Task<ResponseApp<string>> AddProduct(ProductEditDto product);
     Task<ResponseApp<string>> UpdateProduct(ProductEditDto product);

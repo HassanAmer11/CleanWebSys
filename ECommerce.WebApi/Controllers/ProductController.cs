@@ -81,5 +81,20 @@ public class ProductController : ControllerBase
         var result = await _repo.DeleteImageProduct(dto);
         return Ok(result);
     }
+
+    [AllowAnonymous]
+    [HttpGet("GetServicesByGovernorate/{GovernorateId}")]
+    public async Task<IActionResult> GetServicesByGovernorate(int GovernorateId)
+    {
+        var result = await _repo.GetServicesByLocationAsync(GovernorateId);
+        return Ok(result);
+    }
+    [AllowAnonymous]
+    [HttpGet("GetServicesByCategoryAndGovernorate")]
+    public async Task<IActionResult> GetServicesByCategoryAndGovernorate(int CategoryId,int GovernorateId)
+    {
+        var result = await _repo.GetServicesByLocationAndCategoryAsync(CategoryId, GovernorateId);
+        return Ok(result);
+    }
     #endregion
 }

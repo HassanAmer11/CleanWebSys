@@ -33,8 +33,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Text;
-using ECommerce.Application.IBusiness.IProductLocationBusiness;
-using ECommerce.Application.Business.ProductLocationBusiness;
 
 
 namespace ECommerce.Application;
@@ -65,7 +63,6 @@ public static class ModuleApplicationDependencies
         services.AddScoped<IMenuBL, MenuBL>();
         services.AddScoped<IContactInfoBL, ContactInfoBL>();
         services.AddScoped<IProductLocationRepo, ProductLocationRepo>();
-        services.AddScoped<IProductLocationBL, ProductLocationBL>();
         services.AddScoped<IAuth, Auth>();
 
         #region JWT Authentication Configure

@@ -4,7 +4,6 @@ using ECommerce.Application.Dtos.ImagesDtos;
 using ECommerce.Application.Dtos.ProductDtos;
 using ECommerce.Application.IBusiness.IManageImagesBusiness;
 using ECommerce.Application.IBusiness.IProductBusiness;
-using ECommerce.Application.IBusiness.IProductLocationBusiness;
 using ECommerce.Application.IUOW;
 using ECommerce.Application.Wrappers;
 using ECommerce.Core.Common;
@@ -24,17 +23,15 @@ public class ProductBL : ResponseHandler, IProductBL
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IManageImagesBL _manageImagesBL;
-    private readonly IProductLocationBL _productLocationBL;
     private readonly IStringLocalizer<SharedResources> _localizer;
     #endregion
     #region Constractor
-    public ProductBL(IMapper mapper, IUnitOfWork unitOfWork, IManageImagesBL manageImagesBL, IStringLocalizer<SharedResources> localizer, IProductLocationBL productLocationBL) : base(localizer)
+    public ProductBL(IMapper mapper, IUnitOfWork unitOfWork, IManageImagesBL manageImagesBL, IStringLocalizer<SharedResources> localizer) : base(localizer)
     {
         _mapper = mapper;
         _unitOfWork = unitOfWork;
         _localizer = localizer;
         _manageImagesBL = manageImagesBL;
-        _productLocationBL = productLocationBL;
 
 
     }
@@ -60,12 +57,39 @@ public class ProductBL : ResponseHandler, IProductBL
         var ProductList = await _mapper.ProjectTo<ProductGetDto>(query).ToPaginatedListAsync(Criteria.PageNumber, Criteria.PageSize);
         return ProductList;
     }
+    public async Task<ResponseApp<List<ProductGetDto>>> GetServicesByLocationAsync(int locationId)
+    {
+        var query = _unitOfWork.ProductRepo.GetAll()
+            .Where(s => s.ProductLocations.Any(sl => sl.GovernorateId == locationId))
+            .AsNoTracking();
 
+        var services = await _mapper.ProjectTo<ProductGetDto>(query).ToListAsync();
+
+        if (services == null || !services.Any())
+            return NotFound<List<ProductGetDto>>(_localizer[LanguageKey.NotFound]);
+
+        return Success(services);
+    }
+    public async Task<ResponseApp<List<ProductGetDto>>> GetServicesByLocationAndCategoryAsync(int catId, int locationId)
+    {
+        var query = _unitOfWork.ProductRepo.GetAll(s => s.CategoryId == catId)
+            .Where(s => s.ProductLocations.Any(sl => sl.GovernorateId == locationId))
+            .AsNoTracking();
+
+        var services = await _mapper.ProjectTo<ProductGetDto>(query).ToListAsync();
+
+        if (services == null || !services.Any())
+            return NotFound<List<ProductGetDto>>(_localizer[LanguageKey.NotFound]);
+
+        return Success(services);
+    }
     public async Task<ResponseApp<ProductGetDto>> GetProductById(int id)
     {
-        var entity = await _unitOfWork.ProductRepo.GetByIdAsync(p => p.Id == id, i => i.Images, c => c.Category);
+        var entity = await _unitOfWork.ProductRepo.GetByIdAsync(p => p.Id == id, i => i.Images, c => c.Category,l => l.ProductLocations);
         if (entity == null) return NotFound<ProductGetDto>(_localizer[LanguageKey.NotFound]);
+
         var result = _mapper.Map<ProductGetDto>(entity);
+        result.LocationIds = entity.ProductLocations.Select(sl => sl.GovernorateId).ToList();
         return Success(result);
     }
 
@@ -78,24 +102,19 @@ public class ProductBL : ResponseHandler, IProductBL
             var category = await _unitOfWork.CategoryRepo.GetByIdAsync(dto.CategoryId);
 
             var ValidatErrors = ValidationUtility.ValidateProduct(dto);
-            if (ValidatErrors != "") return UnprocessableEntity<string>(ValidatErrors);
-            var Governorates = await _unitOfWork.GovernorateRepo.FindAsync(c => dto.LocationIds.Contains(c.Id));
-
-            if (Governorates.Count() != dto.LocationIds.Count)
-                return NotFound<string>(_localizer[LanguageKey.StateNotFound]);
-            
+            if (ValidatErrors != "") return UnprocessableEntity<string>(ValidatErrors);          
             if (category == null) return NotFound<string>(_localizer[LanguageKey.SorryCategoryNotExist]);
             else
             {
                 product = _mapper.Map<Product>(dto);
+                product.ProductLocations = dto.LocationIds.Select(id => new ProductLocation
+                {
+                    GovernorateId = id
+                }).ToList();
                 await _unitOfWork.ProductRepo.AddAsync(product);
                 if (dto.Files.Any())
                 {
                     await _manageImagesBL.UploadImagesAsync(dto.Files, product.Id, "Products");
-                }
-                if (dto.LocationIds.Any())
-                {
-                    await _productLocationBL.AddNewServicLocationAsync(dto.LocationIds, product.Id);
                 }
                 return Success<string>(_localizer[LanguageKey.AddSuccessfully]);
             }
@@ -114,11 +133,20 @@ public class ProductBL : ResponseHandler, IProductBL
 
     public async Task<ResponseApp<string>> UpdateProduct(ProductEditDto productEdit)
     {
-        var entityQuery = await _unitOfWork.ProductRepo.GetByIdAsync(p => p.Id == productEdit.Id, i => i.Images);
+        var entityQuery = await _unitOfWork.ProductRepo.GetByIdAsync(p => p.Id == productEdit.Id, i => i.Images, l => l.ProductLocations);
         // var images = entityQuery.Images;
 
         if (entityQuery == null) return NotFound<string>(_localizer[LanguageKey.NotFound]);
-
+        // Update service locations
+        entityQuery.ProductLocations.Clear();
+        foreach (var locationId in productEdit.LocationIds)
+        {
+            entityQuery.ProductLocations.Add(new ProductLocation
+            {
+                ProductId = entityQuery.Id,
+                GovernorateId = locationId
+            });
+        }
         var ValidatErrors = ValidationUtility.ValidateProduct(productEdit);
         if (ValidatErrors != "") return UnprocessableEntity<string>(ValidatErrors);
 

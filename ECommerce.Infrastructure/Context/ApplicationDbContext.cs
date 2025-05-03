@@ -14,7 +14,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     }
 
 
-    /*protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
@@ -31,7 +31,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(pl => pl.Governorate)
             .WithMany(g => g.ProductLocations)
             .HasForeignKey(pl => pl.GovernorateId);
-    }*/
+    }
 
     public DbSet<Category> Categories { get; set; }
     public DbSet<Product> Products { get; set; }
