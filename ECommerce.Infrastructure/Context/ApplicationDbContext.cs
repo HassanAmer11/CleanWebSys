@@ -12,23 +12,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
     }
-    //protected override void OnModelCreating(ModelBuilder modelBuilder)
-    //{
-    //    modelBuilder.Entity<ProductLocation>()
-    //        .HasKey(sl => new { sl.ProductId, sl.GovernorateId });
 
-    //    modelBuilder.Entity<ProductLocation>()
-    //        .HasOne(sl => sl.Product)
-    //        .WithMany(s => s.ProductLocations)
-    //        .HasForeignKey(sl => sl.ProductId);
 
-    //    modelBuilder.Entity<ProductLocation>()
-    //        .HasOne(sl => sl.Governorate)
-    //        .WithMany(l => l.ProductLocations)
-    //        .HasForeignKey(sl => sl.GovernorateId);
-    //}
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    /*protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
@@ -45,7 +31,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(pl => pl.Governorate)
             .WithMany(g => g.ProductLocations)
             .HasForeignKey(pl => pl.GovernorateId);
-    }
+    }*/
 
     public DbSet<Category> Categories { get; set; }
     public DbSet<Product> Products { get; set; }

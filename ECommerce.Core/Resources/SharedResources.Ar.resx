@@ -174,4 +174,7 @@
   <data name="SorryCategoryNotExist" xml:space="preserve">
     <value>عفوا لا يمكن أضافة منتج على فئة غير موجودة</value>
   </data>
+  <data name="StateNotFound" xml:space="preserve">
+    <value>عفوا هذة المنطقة غير موجودة</value>
+  </data>
 </root>

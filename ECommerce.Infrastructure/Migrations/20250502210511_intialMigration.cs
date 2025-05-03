@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ECommerce.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class initailmigration : Migration
+    public partial class intialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -372,9 +372,10 @@ namespace ECommerce.Infrastructure.Migrations
                 name: "ProductLocations",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     GovernorateId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -384,7 +385,7 @@ namespace ECommerce.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductLocations", x => new { x.ProductId, x.GovernorateId });
+                    table.PrimaryKey("PK_ProductLocations", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ProductLocations_Governorates_GovernorateId",
                         column: x => x.GovernorateId,
@@ -457,6 +458,11 @@ namespace ECommerce.Infrastructure.Migrations
                 name: "IX_ProductLocations_GovernorateId",
                 table: "ProductLocations",
                 column: "GovernorateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductLocations_ProductId",
+                table: "ProductLocations",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",

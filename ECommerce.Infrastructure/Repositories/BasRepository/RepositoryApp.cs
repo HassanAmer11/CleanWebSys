@@ -244,7 +244,10 @@ public class RepositoryApp<T> : IRepositoryApp<T> where T : class
 
     }
 
-
+    public async Task<List<T>> FindAsync(Expression<Func<T, bool>> predicate)
+    {
+        return await _context.Set<T>().Where(predicate).ToListAsync();
+    }
     #endregion
 
     #region  SingleOrDefaultAsync

@@ -28,7 +28,13 @@ namespace ECommerce.Application.Business.ContactInfoBusiness
             var result = _mapper.Map<IEnumerable<ContactInfoDto>>(query);
             return Success(result);
         }
-
+        public async Task<ResponseApp<ContactInfoDto>> GetFirstContactInfo()
+        {
+            var entity = await _unitOfWork.contactInfoRepo.SingleOrDefaultAsync(x => true);
+            if (entity == null) return NotFound<ContactInfoDto>(_localizer[LanguageKey.NotFound]);
+            var result = _mapper.Map<ContactInfoDto>(entity);
+            return Success(result);
+        }
         public async Task<ResponseApp<ContactInfoDto>> GetById(int id)
         {
             var entity = await _unitOfWork.contactInfoRepo.GetByIdAsync(id);
@@ -39,9 +45,14 @@ namespace ECommerce.Application.Business.ContactInfoBusiness
 
         public async Task<ResponseApp<string>> AddNew(ContactInfoDto dto)
         {
-            var ContactInfoMapper = _mapper.Map<ContactInfo>(dto);
-            var result = await _unitOfWork.contactInfoRepo.AddAsync(ContactInfoMapper);
-            return Success<string>(_localizer[LanguageKey.AddSuccessfully]);
+            var count = await _unitOfWork.contactInfoRepo.Count();
+            if (count > 0) return BadRequest<string>(_localizer[LanguageKey.OperationFailed]);
+            else
+            {
+                var ContactInfoMapper = _mapper.Map<ContactInfo>(dto);
+                var result = await _unitOfWork.contactInfoRepo.AddAsync(ContactInfoMapper);
+                return Success<string>(_localizer[LanguageKey.AddSuccessfully]);
+            }
 
         }
         public async Task<ResponseApp<string>> Update(ContactInfoDto ContactInfo)

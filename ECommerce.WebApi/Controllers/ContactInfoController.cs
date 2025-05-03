@@ -23,7 +23,7 @@ namespace ECommerce.WebApi.Controllers
         [HttpGet("GetContactInfo")]
         public async Task<IActionResult> GetContactInfo()
         {
-            var result = await _repo.GetAll();
+            var result = await _repo.GetFirstContactInfo();
             return Ok(result);
         }
 

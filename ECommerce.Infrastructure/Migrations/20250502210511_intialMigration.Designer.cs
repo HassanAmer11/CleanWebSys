@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250502161903_locationStrColumn")]
-    partial class locationStrColumn
+    [Migration("20250502210511_intialMigration")]
+    partial class intialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -461,9 +461,6 @@ namespace ECommerce.Infrastructure.Migrations
                     b.Property<string>("DetailAr")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LocationStr")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -488,11 +485,11 @@ namespace ECommerce.Infrastructure.Migrations
 
             modelBuilder.Entity("ECommerce.Core.Entities.Model.ProductLocation", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("GovernorateId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
@@ -506,7 +503,7 @@ namespace ECommerce.Infrastructure.Migrations
                     b.Property<string>("DeletedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Id")
+                    b.Property<int>("GovernorateId")
                         .HasColumnType("int");
 
                     b.Property<string>("ModifiedBy")
@@ -515,9 +512,14 @@ namespace ECommerce.Infrastructure.Migrations
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("ProductId", "GovernorateId");
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("GovernorateId");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("ProductLocations");
                 });

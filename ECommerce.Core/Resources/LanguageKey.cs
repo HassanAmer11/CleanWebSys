@@ -21,4 +21,5 @@ public static class LanguageKey
     public const string WorngUserOrPass = "WorngUserOrPass";
     public const string ThereIsNoToken = "ThereIsNoToken";
     public const string SorryCategoryNotExist = "SorryCategoryNotExist";
+    public const string StateNotFound = "StateNotFound";
 }

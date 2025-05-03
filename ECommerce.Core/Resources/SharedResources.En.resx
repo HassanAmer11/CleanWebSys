@@ -174,4 +174,7 @@
   <data name="SorryCategoryNotExist" xml:space="preserve">
     <value>Sorry , You are Try To Add Product  to Category Does Not Exist</value>
   </data>
+  <data name="StateNotFound" xml:space="preserve">
+    <value>Sorry , State Not Found</value>
+  </data>
 </root>

@@ -6,6 +6,7 @@ namespace ECommerce.Application.IBusiness.IContactInfoBusiness
     public interface IContactInfoBL
     {
         public Task<ResponseApp<IEnumerable<ContactInfoDto>>> GetAll();
+        public Task<ResponseApp<ContactInfoDto>> GetFirstContactInfo();
         public Task<ResponseApp<ContactInfoDto>> GetById(int id);
         Task<ResponseApp<string>> AddNew(ContactInfoDto contactInfoDto);
         Task<ResponseApp<string>> Update(ContactInfoDto contactInfoDto);

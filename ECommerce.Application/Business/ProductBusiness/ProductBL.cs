@@ -79,6 +79,11 @@ public class ProductBL : ResponseHandler, IProductBL
 
             var ValidatErrors = ValidationUtility.ValidateProduct(dto);
             if (ValidatErrors != "") return UnprocessableEntity<string>(ValidatErrors);
+            var Governorates = await _unitOfWork.GovernorateRepo.FindAsync(c => dto.LocationIds.Contains(c.Id));
+
+            if (Governorates.Count() != dto.LocationIds.Count)
+                return NotFound<string>(_localizer[LanguageKey.StateNotFound]);
+            
             if (category == null) return NotFound<string>(_localizer[LanguageKey.SorryCategoryNotExist]);
             else
             {

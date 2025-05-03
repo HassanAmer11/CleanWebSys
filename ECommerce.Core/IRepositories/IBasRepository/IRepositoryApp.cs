@@ -24,6 +24,8 @@ public interface IRepositoryApp<T> where T : class
     Task UpdateRangeAsync(ICollection<T> entities);
     Task DeleteAsync(T entity);
     Task DeleteRangeAsync(ICollection<T> entities);
+    Task<List<T>> FindAsync(Expression<Func<T, bool>> predicate);
+
     #endregion
 
     #region GetById Async

@@ -70,7 +70,7 @@ namespace ECommerce.Application.Business.ProductLocationBusiness
                 ProductLocationDto dto = new ProductLocationDto()
                 {
                     GovernorateId = LocationId,
-                    ProductId = productId
+                    ProductId = productId,
                 };
                 var response = await AddNew(dto);
                 if (!response.Succeeded)
