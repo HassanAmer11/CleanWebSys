@@ -70,11 +70,11 @@ public class ProductBL : ResponseHandler, IProductBL
 
         return Success(services);
     }
-    public async Task<ResponseApp<List<ProductGetDto>>> GetServicesByLocationAndCategoryAsync(int catId, int locationId)
+    public async Task<ResponseApp<List<ProductGetDto>>> GetServicesByLocationAndCategoryAsync(int catId, int? locationId)
     {
-        var query = _unitOfWork.ProductRepo.GetAll(s => s.CategoryId == catId)
-            .Where(s => s.ProductLocations.Any(sl => sl.GovernorateId == locationId))
-            .AsNoTracking();
+        var query = _unitOfWork.ProductRepo.GetAll(s => s.CategoryId == catId &&
+                    (!locationId.HasValue || s.ProductLocations.Any(sl => sl.GovernorateId == locationId)))
+                    .AsNoTracking();
 
         var services = await _mapper.ProjectTo<ProductGetDto>(query).ToListAsync();
 

@@ -91,7 +91,7 @@ public class ProductController : ControllerBase
     }
     [AllowAnonymous]
     [HttpGet("GetServicesByCategoryAndGovernorate")]
-    public async Task<IActionResult> GetServicesByCategoryAndGovernorate(int CategoryId,int GovernorateId)
+    public async Task<IActionResult> GetServicesByCategoryAndGovernorate(int CategoryId,int? GovernorateId)
     {
         var result = await _repo.GetServicesByLocationAndCategoryAsync(CategoryId, GovernorateId);
         return Ok(result);
