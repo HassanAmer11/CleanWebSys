@@ -86,6 +86,29 @@ namespace ECommerce.Application.Business.CategoryBusiness
             await _unitOfWork.CategoryRepo.DeleteAsync(entity);
             return Deleted<string>(_localizer[LanguageKey.DeletedSuccessfully]);
         }
+
+        public async Task<ResponseApp<string>> AddCategoryToNavBar(NavCategoryDto dto)
+        {
+            if (dto == null)
+                return BadRequest<string>(_localizer[LanguageKey.BadRequest]);
+
+            // إذا كان المستخدم يحاول التفعيل
+            if (dto.ShowNavBar == true)
+            {
+                var count = await _unitOfWork.CategoryRepo.Count(c => c.ShowNavBar == true);
+                if (count > 3)
+                    return BadRequest<string>(_localizer[LanguageKey.OperationFailed]);
+            }
+
+            var entity = await _unitOfWork.CategoryRepo.GetByIdAsync(dto.CategoryId);
+            if (entity == null)
+                return NotFound<string>(_localizer[LanguageKey.NotFound]);
+
+            entity.ShowNavBar = dto.ShowNavBar;
+            await _unitOfWork.CategoryRepo.UpdateAsync(entity);
+            return Success<string>(_localizer[LanguageKey.UpdateProcess]);
+        }
+
     }
 }
 

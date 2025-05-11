@@ -8,6 +8,7 @@ namespace ECommerce.Application.Dtos.CategoryDtos
     {
         public string NameAr { get; set; }
         public string DescriptionAr { get; set; }
+        public bool? ShowNavBar { get; set; }
     }
     public class CategoryGetDto : CategoryBaseDto
     {
@@ -18,5 +19,10 @@ namespace ECommerce.Application.Dtos.CategoryDtos
     {
         public IFormFile Imagefile { get; set; }
         public IFormFile Iconfile { get; set; }
+    }
+    public class NavCategoryDto 
+    {
+        public int CategoryId { get; set; }
+        public bool? ShowNavBar { get; set; }
     }
 }

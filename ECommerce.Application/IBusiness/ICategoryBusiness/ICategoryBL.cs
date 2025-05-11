@@ -10,5 +10,6 @@ namespace ECommerce.Application.IBusiness.ICategoryBusiness
         Task<ResponseApp<string>> AddNew(CategoryEditDto category);
         Task<ResponseApp<string>> UpdateOneRow(CategoryEditDto category);
         Task<ResponseApp<string>> DeleteOneRow(int id);
+        Task<ResponseApp<string>> AddCategoryToNavBar(NavCategoryDto dto);
     }
 }

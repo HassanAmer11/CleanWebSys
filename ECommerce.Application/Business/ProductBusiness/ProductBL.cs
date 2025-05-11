@@ -214,6 +214,45 @@ public class ProductBL : ResponseHandler, IProductBL
         return grouped;
     }
 
+    public async Task<IEnumerable<GovernorateWithProductsDto>> GetGovernoratesWithServicesDetailsByCategory(int categoryId)
+    {
+        var data = await _unitOfWork.productLocationRepo.GetAll()
+            .Include(pl => pl.Governorate)
+            .Include(pl => pl.Product)
+            .Where(pl => pl.Product.CategoryId == categoryId)
+            .Select(pl => new
+            {
+                GovernorateId = pl.Governorate.Id,
+                GovernorateNameAr = pl.Governorate.NameAr,
+                ProductId = pl.Product.Id,
+                ProductNameAr = pl.Product.NameAr,
+                Images = pl.Product.Images.Select(img => new ImagesDto
+                {
+                    Id = img.Id,
+                    ImagePath = img.ImagePath,
+                }).ToList()
+            })
+            .ToListAsync();
+
+        var grouped = data
+            .GroupBy(x => new { x.GovernorateId, x.GovernorateNameAr })
+            .Select(g => new GovernorateWithProductsDto
+            {
+                GovernorateId = g.Key.GovernorateId,
+                GovernorateNameAr = g.Key.GovernorateNameAr,
+                Services = g.Select(p => new ServiceDto
+                {
+                    Id = p.ProductId,
+                    NameAr = p.ProductNameAr,
+                    Images = p.Images
+                }).Distinct().ToList()
+            });
+
+        return grouped;
+    }
+
+
+
 
     #endregion
 }

@@ -10,7 +10,6 @@ public class ProductGetDto : ProductBase
 {
     public List<ImagesDto> Images { get; set; }
     public CategoryBaseDto Category { get; set; }
-    public List<ProductLocationDto> ProductLocations { get; set; }
     public List<int> LocationIds { get; set; } = new();
 }
 public class ProductEditDto : ProductBase
@@ -22,6 +21,8 @@ public class ServiceDto
 {
     public int Id { get; set; }
     public string NameAr { get; set; }
+    public List<ImagesDto> Images { get; set; }
+
 }
 
 public class GovernorateWithProductsDto

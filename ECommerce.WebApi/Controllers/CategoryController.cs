@@ -54,6 +54,11 @@ public class CategoryController : ControllerBase
         var result = await _repo.DeleteOneRow(id);
         return Ok(result);
     }
-
+    [HttpPut("AddCategoryToNavBar")]
+    public async Task<IActionResult> AddCategoryToNavBar(NavCategoryDto dto)
+    {
+        var result = await _repo.AddCategoryToNavBar(dto);
+        return Ok(result);
+    }
     #endregion
 }
