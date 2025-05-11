@@ -96,5 +96,12 @@ public class ProductController : ControllerBase
         var result = await _repo.GetServicesByLocationAndCategoryAsync(CategoryId, GovernorateId);
         return Ok(result);
     }
+    [AllowAnonymous]
+    [HttpGet("GetGovernoratesWithProductsByCategoryAsync/{categoryId}")]
+    public async Task<IActionResult> GetGovernoratesWithProductsByCategoryAsync(int categoryId)
+    {
+        var result = await _repo.GetGovernoratesWithProductsByCategoryAsync(categoryId);
+        return Ok(result);
+    }
     #endregion
 }

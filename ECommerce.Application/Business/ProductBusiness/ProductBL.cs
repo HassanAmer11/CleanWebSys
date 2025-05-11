@@ -183,5 +183,37 @@ public class ProductBL : ResponseHandler, IProductBL
         else return BadRequest<string>(_localizer[LanguageKey.BadRequest]);
     }
 
+    public async Task<IEnumerable<GovernorateWithProductsDto>> GetGovernoratesWithProductsByCategoryAsync(int categoryId)
+    {
+        var data = await _unitOfWork.productLocationRepo.GetAll()
+            .Include(pl => pl.Governorate)
+            .Include(pl => pl.Product)
+            .Where(pl => pl.Product.CategoryId == categoryId)
+            .Select(pl => new
+            {
+                GovernorateId = pl.Governorate.Id,
+                GovernorateNameAr = pl.Governorate.NameAr,
+                ProductId = pl.Product.Id,
+                ProductNameAr = pl.Product.NameAr
+            })
+            .ToListAsync();
+
+        var grouped = data
+            .GroupBy(x => new { x.GovernorateId, x.GovernorateNameAr })
+            .Select(g => new GovernorateWithProductsDto
+            {
+                GovernorateId = g.Key.GovernorateId,
+                GovernorateNameAr = g.Key.GovernorateNameAr,
+                Services = g.Select(p => new ServiceDto
+                {
+                    Id = p.ProductId,
+                    NameAr = p.ProductNameAr
+                }).Distinct().ToList()
+            });
+
+        return grouped;
+    }
+
+
     #endregion
 }

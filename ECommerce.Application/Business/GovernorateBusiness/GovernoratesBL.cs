@@ -6,6 +6,7 @@ using ECommerce.Application.IUOW;
 using ECommerce.Core.Common.Response;
 using ECommerce.Core.Entities.Model;
 using ECommerce.Core.Resources;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 
 
@@ -72,6 +73,34 @@ public class GovernoratesBL : ResponseHandler, IGovernoratesBL
         if (entity == null) return NotFound<string>(_localizer[LanguageKey.NotFound]);
         await _unitOfWork.GovernorateRepo.DeleteAsync(entity);
         return Deleted<string>(_localizer[LanguageKey.DeletedSuccessfully]);
+    }
+
+    public async Task<IEnumerable<GovernoratesDto>> GetGovernoratesWithProductsAsync()
+    {
+        return await _unitOfWork.productLocationRepo.GetAll()
+            .Include(pl => pl.Governorate)
+            .Select(pl => new GovernoratesDto
+            {
+                Id = pl.Governorate.Id,
+                NameAr = pl.Governorate.NameAr
+            })
+            .Distinct()
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<GovernoratesDto>> GetGovernoratesWithProductsByCategoryAsync(int categoryId)
+    {
+        return await _unitOfWork.productLocationRepo.GetAll()
+            .Include(pl => pl.Governorate)
+            .Include(pl => pl.Product)
+            .Where(pl => pl.Product.CategoryId == categoryId)
+            .Select(pl => new GovernoratesDto
+            {
+                Id = pl.Governorate.Id,
+                NameAr = pl.Governorate.NameAr
+            })
+            .Distinct()
+            .ToListAsync();
     }
     #endregion
 }

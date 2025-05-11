@@ -54,6 +54,21 @@ public class GovernoratesController : ControllerBase
         var result = await _repo.DeleteGovernorate(id);
         return Ok(result);
     }
+    [AllowAnonymous]
+    [HttpGet("GetGovernoratesWithServicesAsync")]
+    public async Task<IActionResult> GetGovernoratesWithProductsAsync()
+    {
+        var result = await _repo.GetGovernoratesWithProductsAsync();
+        return Ok(result);
+    }
+
+    [AllowAnonymous]
+    [HttpGet("GetGovernoratesWithServicesByCategoryAsync/{categoryId}")]
+    public async Task<IActionResult> GetGovernoratesWithProductsByCategoryAsync(int categoryId)
+    {
+        var result = await _repo.GetGovernoratesWithProductsByCategoryAsync(categoryId);
+        return Ok(result);
+    }
 
     #endregion
 }

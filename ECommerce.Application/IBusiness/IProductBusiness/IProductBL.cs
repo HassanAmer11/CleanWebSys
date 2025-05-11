@@ -1,4 +1,5 @@
-﻿using ECommerce.Application.Dtos.ImagesDtos;
+﻿using ECommerce.Application.Dtos.GovernoratesDtos;
+using ECommerce.Application.Dtos.ImagesDtos;
 using ECommerce.Application.Dtos.ProductDtos;
 using ECommerce.Application.Wrappers;
 using ECommerce.Core.Common;
@@ -18,4 +19,5 @@ public interface IProductBL
     Task<ResponseApp<string>> UpdateProduct(ProductEditDto product);
     Task<ResponseApp<string>> DeleteProduct(int id);
     Task<ResponseApp<string>> DeleteImageProduct(DeleteImagesDto dto);
+    Task<IEnumerable<GovernorateWithProductsDto>> GetGovernoratesWithProductsByCategoryAsync(int categoryId);
 }

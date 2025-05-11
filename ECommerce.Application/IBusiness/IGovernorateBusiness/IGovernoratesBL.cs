@@ -10,4 +10,6 @@ public interface IGovernoratesBL
     Task<ResponseApp<string>> AddGovernorate(GovernoratesDto governorate);
     Task<ResponseApp<string>> UpdateGovernorate(GovernoratesDto governorate);
     Task<ResponseApp<string>> DeleteGovernorate(int id);
+    Task<IEnumerable<GovernoratesDto>> GetGovernoratesWithProductsAsync();
+    Task<IEnumerable<GovernoratesDto>> GetGovernoratesWithProductsByCategoryAsync(int categoryId);
 }
